@@ -48,10 +48,11 @@ while (myPort.available() > 0) {
       String[] list = split(inBuffer,'-');      
       int iii = int(list[0]);
       jjj++;
-      if(jjj>1000)
+      if(jjj>100)
       {
         jjj=0;
         cp5.getController("v1").setValue(iii);
+        println(v1);
       }
       //println(inBuffer);
       //println(list[0]);
