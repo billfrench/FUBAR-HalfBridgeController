@@ -6,6 +6,7 @@ int FULLGO = 200;
 int KINDAGO = 200;
 int STOP = 255;
 int THROTTLE_IN_PIN = 21;
+int FUSE_IN = A3;
 
 // 200 to 800
 
@@ -24,6 +25,14 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  int FS = analogRead(FUSE_IN);
+  if(FS > 632)
+  {
+    Timer1.pwm(LOW_OUT, 0);
+    Serial.println("OVER");
+  }
+  else
+  {
   int T = analogRead(THROTTLE_IN_PIN);
   //int TMapped = map(T,200,800,1024,0);
   int TMapped = map(T, 200, 800, 0, 1024);
@@ -32,8 +41,9 @@ void loop() {
   Timer1.pwm(LOW_OUT, TFinal);
 
   Serial.print(T);
+  Serial.print("-");  Serial.print(FS);
   Serial.print("-");
   Serial.println(TFinal);
-
+  }
 
 }
