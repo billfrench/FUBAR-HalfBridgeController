@@ -26,7 +26,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   int FS = analogRead(FUSE_IN);
-  if(FS > 632)
+  if(FS > 630)
   {
     Timer1.pwm(LOW_OUT, 0);
     Serial.println("OVER");
@@ -38,6 +38,12 @@ void loop() {
   int TMapped = map(T, 200, 800, 0, 1024);
 
   int TFinal = constrain(TMapped, 0, 1024);
+
+  if(TFinal < 400)
+  {
+    TFinal = TFinal / 3;
+  }
+  
   Timer1.pwm(LOW_OUT, TFinal);
 
   Serial.print(T);
