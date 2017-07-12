@@ -27,7 +27,7 @@ void draw()
       //fill(0);
       //text(iii, 10, 10);
       //println(inBuffer);
-      println(list[0]);
+      println(list[1]);
     }
   }
 }
