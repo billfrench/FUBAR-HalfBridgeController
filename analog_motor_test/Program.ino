@@ -1,38 +1,41 @@
 void setup() {
-  // put your setup code here, to run once:
 
-  pinMode(LOW_OUT, OUTPUT);
-  analogWrite(LOW_OUT, 0);
-  pinMode(HIGH_OUT, OUTPUT);
-  analogWrite(HIGH_OUT, 0);
-  //analogWrite(HIGH_OUT,255);
+  pinMode(LOW_SIDE_OUT, OUTPUT);
+  analogWrite(LOW_SIDE_OUT, 0);
+  pinMode(HIGH_SIDE_OUT, OUTPUT);
+  analogWrite(HIGH_SIDE_OUT, 0);
+
   Serial.begin(9600);
-  Timer1.initialize(62);
+  Timer1.initialize(62);  // Run the PWM at ~16kHz ... this seems to be kinda normal
+
 }
 void loop() {
-  // put your main code here, to run repeatedly:
-  int FS = analogRead(FUSE_IN);
-  if (FS > 630)
+
+  FUSE_SHUNT_READING = analogRead(FUSE_IN_PIN);
+  if (FUSE_SHUNT_READING > 630)
   {
-    Timer1.pwm(LOW_OUT, 0);
-    Serial.println("OVERLIMIT");
+    OUTPUT_PWM = 0;
+    Timer1.pwm(LOW_SIDE_OUT, OUTPUT_PWM);  // Fuse is over amps, set PWM to zero
   }
   else
   {
-    int T = analogRead(THROTTLE_IN_PIN);
-    //int TMapped = map(T,200,800,1024,0);
-    int TMapped = map(T, 200, 800, 0, 1024);
+    
+    int ThrottleReading = analogRead(THROTTLE_IN_PIN);
 
-    int TFinal = constrain(TMapped, 0, 1024);
+    // the timerone library for some reason needs 0 to 1024 ... not 1023!
+    ThrottleReading = map(ThrottleReading, 200, 800, 0, 1024);
+    ThrottleReading = constrain(ThrottleReading, 0, 1024);
 
-    TFinal = ThrottleLUT[TFinal];
+    OUTPUT_PWM = ThrottleLUT[ThrottleReading];  // this allows for an exponential throttle curve
 
-    Timer1.pwm(LOW_OUT, TFinal);
-
-    Serial.print(T);
-    Serial.print("-");  Serial.print(FS);
-    Serial.print("-");
-    Serial.println(TFinal);
+    Timer1.pwm(LOW_SIDE_OUT, OUTPUT_PWM);
+    
   }
+  //    Serial.print(T);
+  //    Serial.print("|");
+  Serial.print(FUSE_SHUNT_READING);
+  Serial.print("|");
+  Serial.print(OUTPUT_PWM);
+  Serial.print("X");
 }
 

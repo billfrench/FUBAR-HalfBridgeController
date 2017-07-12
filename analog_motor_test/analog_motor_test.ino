@@ -1,9 +1,12 @@
 #include <TimerOne.h>
 
-int LOW_OUT = 14;
-int HIGH_OUT = 15;
-int THROTTLE_IN_PIN = 21;
-int FUSE_IN = A3;
+const byte LOW_SIDE_OUT = 14;
+const byte HIGH_SIDE_OUT = 15;
+const byte THROTTLE_IN_PIN = 21;
+const byte FUSE_IN_PIN = A3;
+
+int FUSE_SHUNT_READING = 0;
+int OUTPUT_PWM = 0;
 
 const int ThrottleLUT[1025] = {
   0,
