@@ -7,6 +7,8 @@ int jjj = 0;
 
 void setup() 
 {
+  printArray(Serial.list());
+  
   String portName = Serial.list()[0];
   myPort = new Serial(this, portName, 9600);
 
