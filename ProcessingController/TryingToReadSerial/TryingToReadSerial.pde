@@ -7,6 +7,8 @@ PrintWriter output;
 
 int jjj = 0;
 
+long startTime = 0;
+
 void setup() 
 {
   printArray(Serial.list());
@@ -18,31 +20,57 @@ void setup()
   output = createWriter("output.log");
 }
 
+String mystring = "";
+
 void draw()
 {
   println("Draw...");
+  startTime = System.nanoTime();
   while (jjj < 500)
   {
-    while (myPort.available() > 0) {
-      String inBuffer = myPort.readStringUntil(10);   
-      if (inBuffer != null) {
+    while (myPort.available() > 0 && jjj < 500) {
 
-        String[] list = split(inBuffer, '-'); 
-        if (list.length == 3)
-        {
-          output.println(inBuffer);
-    println(inBuffer);
-          //background(255);
-          //fill(0);
-          //text(iii, 10, 10);
-          //println(inBuffer);
-          //println(list[1]);
-          jjj++;
-          println(jjj);
-        }
+
+      int inByte = myPort.read();
+      
+      char c = char(inByte);
+      
+      println(c);
+
+      if(c != 'X')
+      {
+        mystring = mystring + c;
       }
+      else
+      {
+        println(mystring);
+        mystring = "";
+        jjj++;
+        print("jjj:");
+        println(jjj);
+      }
+
+      //String inBuffer = myPort.readStringUntil('X');   
+      //if (inBuffer != null) {
+      //  println(inBuffer);
+      //  String[] list = split(inBuffer, '|'); 
+      //  if (list.length == 2)
+      //  {
+      //    //output.print(inBuffer);
+      //    //println(inBuffer);
+      //    //background(255);
+      //    //fill(0);
+      //    //text(iii, 10, 10);
+      //    //println(inBuffer);
+      //    //println(list[1]);
+          //jjj++;
+          //println(jjj);
+      //  }
+      //}
     }
   }
+  println("Done.");
+  println((System.nanoTime() - startTime)/500);
   output.flush(); // Writes the remaining data to the file
   output.close(); // Finishes the file
   exit(); // Stops the program
