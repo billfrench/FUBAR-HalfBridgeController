@@ -14,9 +14,9 @@ void setup() {
 void loop() {
 
   FUSE_SHUNT_READING = analogRead(FUSE_IN_PIN);
-  if (FUSE_SHUNT_READING > 645)
+  if (FUSE_SHUNT_READING > AMP_CUTOUT)
   {
-    OUTPUT_PWM = 50;
+    OUTPUT_PWM = CUTOUT_PWM;
     Timer1.pwm(LOW_SIDE_OUT, OUTPUT_PWM);  // Fuse is over amps, set PWM to zero
   }
   else

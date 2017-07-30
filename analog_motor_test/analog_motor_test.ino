@@ -8,6 +8,15 @@ const byte FUSE_IN_PIN = A3;
 int FUSE_SHUNT_READING = 0;
 int OUTPUT_PWM = 0;
 
+const int AMP_CUTOUT = 645;
+const int CUTOUT_PWM = 50;
+
+//40  114.41232 626.41232
+//45  128.71386 640.71386
+//50  143.0154  655.0154
+//55  157.31694 669.31694
+//60  171.61848 683.61848
+
 const int ThrottleLUT[1025] = {
   0,
   1,
