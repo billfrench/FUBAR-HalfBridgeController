@@ -8,7 +8,8 @@ void setup() {
   Serial.begin(9600);
   Timer1.initialize(62);  // Run the PWM at ~16kHz ... this seems to be kinda normal
 
-  Serial.print("LETS|GOX");
+  Serial.println("LETS|GOX");
+  Serial.println(AMP_CUTOUT);
 
 }
 void loop() {
