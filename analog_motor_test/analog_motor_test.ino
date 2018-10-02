@@ -8,7 +8,7 @@ const byte FUSE_IN_PIN = A3;
 int FUSE_SHUNT_READING = 0;
 int OUTPUT_PWM = 0;
 
-const int AMP_CUTOUT = 379; //645 //250 //379
+const int AMP_CUTOUT = 370; //645 //250 //379
 const int CUTOUT_PWM = 50;
 
 //AMPS  AnalogRead  +512 for LT1999 where 512 = zero amps
